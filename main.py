@@ -3,11 +3,11 @@ from datetime import datetime
 import  smtplib
 import time
 
-MY_EMAIL = "yourdeeplynewsletter@gmail.com"
-MY_PASSWORD = "g90pli()!?qw"
+MY_EMAIL = "enter_your_email"
+MY_PASSWORD = "enter_your_password"
 
-MY_LAT = 40.4778488
-MY_LNG = 15.6301506
+MY_LAT = "enter_your_latitude"
+MY_LONG = "enter_your_longitude"
 
 #-----track ISS-----#
 
@@ -19,8 +19,7 @@ def is_iss_overhead():
     iss_longitude = float(data_iss["iss_position"]["longitude"])
     iss_latitude = float(data_iss["iss_position"]["latitude"])
 
-    iss_latitude = 40.4778488
-    iss_longitude = 15.6301506
+    
     #Your position is within +5 or -5 degrees of the ISS position.
     if MY_LAT-5 <= iss_latitude <= MY_LAT+5 and MY_LNG -5<= iss_longitude <= MY_LNG +5:
         return True
@@ -31,8 +30,8 @@ def is_iss_overhead():
 
 def is_night():
     parameters = {
-        "lat": 40.4778488,
-        "lng": 15.6301506,
+        "lat": MY_LAT,
+        "lng": MY_LONG,
         "formatted": 0
     }
 
@@ -52,14 +51,18 @@ def is_night():
 #----send email----#
 
 def send_email():
-    MY_EMAIL = "yourdeeplynewsletter@gmail.com"
-    MY_PASSWORD = "g90pli()!?qw"
-
-    with smtplib.SMTP("smtp.gmail.com") as connection:
+    
+        connection = smtplib.SMTP("smtp.gmail.com") 
+        #if you have gmail account smtp == "smtp.gmail.com",
+        # yahoo account smtp == smtp.mail.yahoo.com,
+        # hotmail account smtp =="smtp.live.com"
+        # outlook smtp == "smtp-mail.outlook.com"
+        
         connection.starttls()
         connection.login(MY_EMAIL,MY_PASSWORD)
-        connection.sendmail(from_addr=MY_EMAIL,to_addrs="saroantonello.lovito@gmail.com", msg=f"Subject: ISS overhead\n\n Just watch at the sky!")
+        connection.sendmail(from_addr=MY_EMAIL,to_addrs="enter_destination_email", msg=f"Subject: ISS overhead\n\n Just watch at the sky!")
 
+#save it on Cloud with Python Anywhere and it will run every 60 seconds
 while True:
     #run it every 60 seconds
     time.sleep(60)
